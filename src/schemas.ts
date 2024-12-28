@@ -30,4 +30,25 @@ const typeDefs = gql`
         content: String!
         rating: Int!
     }
+
+    #  quearys
+    type Query {
+        authors: [Author]
+        readers: [Reader]
+        book(authorId: ID): [Book]
+        reviews(bookId: ID): [Review]
+
+        author(id: ID): Author
+        book(id: ID): Book
+        reader(id: ID): Reader
+        review(id: ID): Review
+    }
+
+    # mutations
+    type Mutation {
+        addAuthor(name: String!, bio: String): Author!
+        addBook(title: String!, authorId: ID): Book!
+        addReview(bookId: ID, readerId: ID, content: String!, rating: Int!): Review!
+        addReader(name: String!, email: String!): Reader!
+    }
 `;
