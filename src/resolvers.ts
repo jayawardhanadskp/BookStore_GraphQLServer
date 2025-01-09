@@ -4,12 +4,12 @@ import mongoose, { isValidObjectId, Query } from "mongoose";
 
 const resolvers = {
     Query: {
-        authors() {
-            return Author.find();
+        async authors() {
+            return await Author.find();
         },
 
-        readers() {
-            return Reader.find();
+        async readers() {
+            return await Reader.find();
         },
 
         async books( _: any, { authorId }: any) {
@@ -100,54 +100,54 @@ const resolvers = {
 
 
         // add a new review for a book
-        async addReview( _:any, args: any) {
+        async addReview(_: any, args: any) {
             try {
                 const { bookId, readerId, content, rating } = args;
-
+        
                 if (!mongoose.Types.ObjectId.isValid(bookId)) {
                     throw new Error("Invalid book format");
                 }
                 const validBookId = new mongoose.Types.ObjectId(bookId);
-
+        
                 if (!mongoose.Types.ObjectId.isValid(readerId)) {
                     throw new Error("Invalid Reader Id format");
                 }
-
+        
                 const validReaderId = new mongoose.Types.ObjectId(readerId);
-
+        
                 const book = await Book.findById(validBookId);
                 if (!book) {
                     throw new Error("Book not found");
                 }
-
-
+        
                 const reader = await Reader.findById(validReaderId);
-                if(!reader) {
+                if (!reader) {
                     throw new Error("Reader not Found");
                 }
-
+        
                 const review = new Review({
                     book: validBookId,
                     reader: validReaderId,
                     content,
                     rating,
                 });
-
+        
                 await review.save();
-
+        
                 book.reviews.push(review._id);
                 await book.save();
-
+        
                 return {
                     ...review.toObject(),
                     book,
                     reader,
                 };
-
-            } catch (Error: any) {
-                throw new Error(`Faliled to add review: ${Error.message}`);
+        
+            } catch (error: any) {
+                throw new Error(`Failed to add review: ${error.message}`);
             }
         },
+        
 
         // add new raader
         async addReader( _: any, args: any ) {

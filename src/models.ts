@@ -21,7 +21,7 @@ export interface IReview extends Document {
     book:IBook["_id"];
     reader: IReader["_id"];
     content:string;
-    reating:number;
+    rating:number;
 }
 
 // database schemas
@@ -46,10 +46,10 @@ const ReviewSchema = new Schema<IReview>({
     book : { type: Schema.Types.ObjectId, ref: 'Book' },
     reader : { type: Schema.Types.ObjectId, ref: 'Reader' },
     content : { type: String, required: true },
-    reating : { type: Number, required: true }
+    rating : { type: Number, required: true }
 });
 
 export const Author = mongoose.model<IAuthor>("Author", AuthorSchema);
 export const Reader = mongoose.model<IReader>("Reader", ReaderSchema);
 export const Book = mongoose.model<IBook>("Book", BookSchema);
-export const Review = mongoose.model<IReview>("Review", ReaderSchema);
+export const Review = mongoose.model<IReview>("Review", ReviewSchema);
