@@ -52,3 +52,5 @@ const typeDefs = gql`
         addReader(name: String!, email: String!): Reader!
     }
 `;
+
+export default typeDefs;
